@@ -157,6 +157,26 @@ tr:last-child td{border-bottom:none;}
 ::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-thumb{background:var(--sur3);border-radius:10px;}
 canvas{max-height:240px;}
+/* MOBILE RESPONSIVE */
+@media(max-width:768px){
+  .sb{width:100%;height:auto;position:relative;flex-direction:row;flex-wrap:wrap;}
+  .mn{margin-left:0;}
+  .lay{flex-direction:column;}
+  .sb-logo{padding:12px 16px 10px;}
+  .nav{display:none;width:100%;padding:6px;}
+  .nav.open{display:block;}
+  .sb-ft{padding:8px 16px;border-top:none;display:flex;align-items:center;gap:8px;}
+  .mob-menu{display:flex!important;}
+  .pnl{padding:16px;}
+  .g2,.g3,.g4{grid-template-columns:1fr!important;}
+  div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr!important;}
+  .fr.c2,.fr.c3{grid-template-columns:1fr!important;}
+  .ph .pt{font-size:20px;}
+}
+@media(min-width:769px){
+  .mob-menu{display:none!important;}
+}
+.mob-menu{display:none;background:none;border:none;color:var(--tx2);cursor:pointer;padding:8px;font-size:20px;}
 /* REQUIRED FIELDS */
 .req{color:var(--re);margin-left:2px;}
 input.invalid,select.invalid{border-color:var(--re)!important;box-shadow:0 0 0 2px rgba(212,96,90,0.15);}
@@ -186,7 +206,7 @@ input.invalid,select.invalid{border-color:var(--re)!important;box-shadow:0 0 0 2
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="lbox">
-    <div class="paw" id="login-logo">🐾</div>
+    <div class="paw" id="login-logo"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#e8875a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m2 7 10 7 10-7"/></svg></div>
     <h1 id="login-title">CS Tool</h1>
     <div class="sub" id="login-sub">Shipping Operations Tool</div>
     <input type="password" id="pw" placeholder="Team password" onkeydown="if(event.key==='Enter')document.getElementById('ak').focus()" autofocus />
@@ -210,10 +230,13 @@ input.invalid,select.invalid{border-color:var(--re)!important;box-shadow:0 0 0 2
 <div class="lay">
 
 <aside class="sb">
-  <div class="sb-logo">
-    <div style="font-size:22px;margin-bottom:6px;" id="sb-logo">🐾</div>
-    <div class="sb-wm" id="sb-brand">CS Tool</div>
-    <div class="sb-sm">CS Shipping Tool</div>
+  <div class="sb-logo" style="display:flex;align-items:center;justify-content:space-between;">
+    <div>
+      <div style="font-size:22px;margin-bottom:4px;" id="sb-logo">🐾</div>
+      <div class="sb-wm" id="sb-brand">CS Tool</div>
+      <div class="sb-sm">CS Shipping Tool</div>
+    </div>
+    <button class="mob-menu" onclick="document.querySelector('.nav').classList.toggle('open')" title="Menu">☰</button>
   </div>
   <nav class="nav">
     <button class="ni active" onclick="nav('email',this)">
@@ -233,6 +256,9 @@ input.invalid,select.invalid{border-color:var(--re)!important;box-shadow:0 0 0 2
     <button class="ni" onclick="nav('insights',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>Insights
     </button>
+    <button class="ni" onclick="nav('import',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Import Data
+    </button>
     <button class="ni" onclick="nav('settings',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings
     </button>
@@ -248,15 +274,12 @@ input.invalid,select.invalid{border-color:var(--re)!important;box-shadow:0 0 0 2
 <!-- EMAIL DRAFTER -->
 <div id="p-email" class="pnl active">
   <div class="ph"><div class="pt">Email <span>Drafter</span></div><div class="ps">Single order · auto-translated by store domain</div></div>
-  <div class="g2">
-    <div class="card">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div class="card" style="min-width:0;">
       <div class="ct">Order details</div>
-      <div class="fr c2">
-        <div class="fg"><label>Customer name<span class="req">*</span></label><input id="sn" placeholder="e.g. Maria Santos" oninput="clearInvalid('sn')" /><div class="field-err" id="err-sn">Customer name is required</div></div>
-        <div class="fg"><label>Order number<span class="req">*</span></label><input id="so" placeholder="e.g. #10482" oninput="clearInvalid('so')" /><div class="field-err" id="err-so">Order number is required</div></div>
-      </div>
-      <div class="fr c2">
-        <div class="fg">
+      <div class="fg"><label>Customer name<span class="req">*</span></label><input id="sn" placeholder="e.g. Maria Santos" oninput="clearInvalid('sn')" /><div class="field-err" id="err-sn">Customer name is required</div></div>
+      <div class="fg"><label>Order number<span class="req">*</span></label><input id="so" placeholder="e.g. #10482" oninput="clearInvalid('so')" /><div class="field-err" id="err-so">Order number is required</div></div>
+      <div class="fg">
           <label>Store / domain<span class="req">*</span></label>
           <div style="position:relative;display:flex;align-items:center;">
             <span style="position:absolute;left:10px;font-size:13px;color:var(--tx3);font-family:var(--fm);pointer-events:none;">.</span>
@@ -265,7 +288,6 @@ input.invalid,select.invalid{border-color:var(--re)!important;box-shadow:0 0 0 2
           </div>
           <div class="field-err" id="err-ss">Store / domain is required</div>
         </div>
-      </div>
       <div class="fg">
         <label>Shipping issue<span class="req">*</span></label>
         <select id="si" onchange="toggleOtherIssue('si','si-other');clearInvalid('si')">
@@ -363,9 +385,13 @@ Sophie Martin	#10512	.fr	customs issue	"></textarea>
     <div class="sc" style="--sb:var(--tl)"><div class="sn" id="rc-s">0</div><div class="sl">Stores covered</div><div class="ss">Unique domains</div></div>
   </div>
 
+
   <div class="card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-      <div class="ct" style="margin:0;">Saved records</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="ct" style="margin:0;">Saved records</div>
+        <button class="btn btn-g" id="reveal-btn" onclick="toggleReveal()" style="padding:4px 10px;font-size:11px;">👁 Reveal names</button>
+      </div>
       <div style="display:flex;gap:8px;">
         <button class="btn btn-g" style="padding:7px 14px;font-size:12px;" onclick="clearRecs()">Clear all</button>
         <button class="btn btn-xl" onclick="exportAll()">
@@ -388,6 +414,44 @@ Sophie Martin	#10512	.fr	customs issue	"></textarea>
 <div id="p-insights" class="pnl">
   <div class="ph"><div class="pt">Insights & <span>Fixes</span></div><div class="ps">Patterns detected from your drafted records</div></div>
   <div id="insights-body"></div>
+</div>
+
+<!-- IMPORT DATA -->
+<div id="p-import" class="pnl">
+  <div class="ph"><div class="pt">Import <span>Data</span></div><div class="ps">Restore records from a previously exported Excel file</div></div>
+  <div class="card">
+    <div class="ct">Upload Excel backup</div>
+    <div class="hint" style="margin-bottom:14px;">
+      Upload an Excel file exported from this tool to restore your records on a new device.<br><br>
+      The file must have columns: <code>Date</code> · <code>Customer Name</code> · <code>Order #</code> · <code>Store</code> · <code>Language</code> · <code>Issue</code> · <code>Notes</code> · <code>Email Subject</code> · <code>Email Body</code><br><br>
+      Duplicates (same Order # + Store) are skipped automatically.
+    </div>
+    <div class="fg" style="margin-bottom:16px;">
+      <label>Choose file</label>
+      <input type="file" id="import-file" accept=".xlsx,.xls,.csv" onchange="previewImport()" style="padding:8px;cursor:pointer;" />
+    </div>
+    <div id="import-preview" style="display:none;">
+      <div class="ct" style="margin-bottom:10px;" id="import-preview-label">Preview</div>
+      <div class="tw" style="margin-bottom:14px;max-height:280px;overflow-y:auto;">
+        <table><thead><tr><th>Date</th><th>Customer</th><th>Order #</th><th>Store</th><th>Issue</th><th>Status</th></tr></thead>
+        <tbody id="import-preview-rows"></tbody></table>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-p" onclick="doImport()" id="import-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Import records
+        </button>
+        <button class="btn btn-g" onclick="cancelImport()">Cancel</button>
+      </div>
+    </div>
+    <div id="import-result" style="display:none;margin-top:14px;"></div>
+  </div>
+  <div class="card">
+    <div class="ct">How to sync between devices</div>
+    <div class="ins"><div class="id2" style="background:var(--ac)"></div><div class="it"><strong>Device A → Device B:</strong> Records & Export → Download Excel → send file → Device B → Import Data → upload file → Import records.</div></div>
+    <div class="ins"><div class="id2" style="background:var(--ac)"></div><div class="it"><strong>Device B → Device A:</strong> Same process in reverse. Duplicates are skipped so no double entries.</div></div>
+    <div class="ins"><div class="id2" style="background:var(--bl)"></div><div class="it"><strong>Tip:</strong> Export before switching devices so you always have the latest backup ready to import.</div></div>
+  </div>
 </div>
 
 <!-- SETTINGS -->
@@ -414,7 +478,7 @@ Sophie Martin	#10512	.fr	customs issue	"></textarea>
       </div>
       <div class="fg">
         <label>Login password</label>
-        <input id="cfg-pwd" type="password" placeholder="Current: mff2025" />
+        <input id="cfg-pwd" type="password" placeholder="Leave blank to keep current password" />
       </div>
       <div class="fg">
         <label>AI Provider</label>
@@ -453,20 +517,19 @@ Sophie Martin	#10512	.fr	customs issue	"></textarea>
   </div>
   <div class="card">
     <div class="ct">Email drafter defaults</div>
-    <div class="fr c2">
-      <div class="fg">
-        <label>Default store domain (optional)</label>
-        <input id="cfg-store" placeholder="e.g. de  kr  nl  (leave blank for manual entry)" />
-      </div>
-      <div class="fg">
-        <label>Email tone</label>
-        <select id="cfg-tone">
-          <option value="warm and empathetic">Warm & Empathetic (default)</option>
-          <option value="professional and formal">Professional & Formal</option>
-          <option value="friendly and casual">Friendly & Casual</option>
-          <option value="concise and direct">Concise & Direct</option>
-        </select>
-      </div>
+    <div class="fg">
+      <label>Email tone</label>
+      <select id="cfg-tone">
+        <option value="casual, friendly and informal">Casual, Friendly & Informal (default)</option>
+        <option value="warm and empathetic">Warm & Empathetic</option>
+        <option value="professional and formal">Professional & Formal</option>
+        <option value="concise and direct">Concise & Direct</option>
+      </select>
+    </div>
+    <div class="fg" style="margin-top:10px;">
+      <label>Custom AI instructions <span style="color:var(--tl);font-size:10px;">(optional — guide how emails are written)</span></label>
+      <textarea id="cfg-ai-rules" rows="4" placeholder="e.g. Always apologize first before explaining the issue. Keep emails under 80 words. Never promise a specific delivery date. Always offer a solution. Use formal language for German customers."></textarea>
+      <div class="hint" style="margin-top:5px;">These rules are added to every email draft. Be specific — the more detail, the better the output.</div>
     </div>
     <button class="btn btn-g" onclick="saveBrand()">Apply defaults</button>
   </div>
@@ -485,16 +548,27 @@ let CFG = {
   subtitle: 'CS Shipping Tool',
   signoff: 'Your Signature',
   pwd: 'default',
-  defStore: '',
-  tone: 'warm and empathetic',
+
+  tone: 'casual, friendly and informal',
   geminiKey: '',
   aiProvider: 'gemini',
+  aiRules: `Always start with a friendly "Hi [Name]," or "Hey [Name]," — no stiff formalities.
+Make it clear you're reaching out first: "Just wanted to let you know…" or "Quick heads-up…"
+State directly that the order hasn't shipped yet and explain the issue in plain words.
+Keep empathy casual: "I know that's annoying," or "We don't want this to cause delays."
+Ask clearly for what's needed using simple phrasing.
+Promise action once fixed: "As soon as we have the info, we'll ship it out."
+Keep it short — under 80 words for the body.
+Warm, casual, and human — no corporate jargon. Plain text only.
+Always drop the order number in the subject line.
+Adapt language to customer's region if needed.`,
 };
 function applyBrand(){
   const b=document.getElementById('cfg-brand')?.value||CFG.brand;
   const e=document.getElementById('cfg-emoji')?.value||CFG.emoji;
   const s=document.getElementById('cfg-subtitle')?.value||CFG.subtitle;
-  document.getElementById('prev-emoji').textContent=e;
+  const prev=document.getElementById('prev-emoji');
+  if(prev) prev.textContent=e;
   document.getElementById('prev-brand').textContent=b;
   document.getElementById('prev-sub').textContent=s;
 }
@@ -509,8 +583,9 @@ function saveBrand(){
   CFG.signoff=document.getElementById('cfg-signoff')?.value||CFG.signoff;
   const np=document.getElementById('cfg-pwd')?.value;
   if(np)CFG.pwd=np;
-  CFG.defStore=document.getElementById('cfg-store')?.value||'';
   CFG.tone=document.getElementById('cfg-tone')?.value||CFG.tone;
+  CFG.aiRules=document.getElementById('cfg-ai-rules')?.value||'';
+  localStorage.setItem('cs_ai_rules', CFG.aiRules);
   const gk=document.getElementById('cfg-gemini-key')?.value;
   if(gk) CFG.geminiKey=gk;
   localStorage.setItem('cs_gemini_key', CFG.geminiKey);
@@ -577,6 +652,7 @@ function tryLogin(){
   document.getElementById('bm').value=CFG.signoff;
   loadRecs(); renderRecs(); updCount();
   const storedKey=localStorage.getItem('cs_gemini_key'); if(storedKey) CFG.geminiKey=storedKey;
+  const storedRules=localStorage.getItem('cs_ai_rules'); if(storedRules) CFG.aiRules=storedRules;
   const storedProvider=localStorage.getItem('cs_ai_provider'); if(storedProvider) CFG.aiProvider=storedProvider;
 }
 
@@ -653,18 +729,19 @@ function nav(id,el){
   if(id==='insights') buildInsights();
 
   if(id==='settings') populateSettings();
+  if(id==='import') resetImport();
 }
 function populateSettings(scrollToSync=false){
   document.getElementById('cfg-brand').value=CFG.brand;
   document.getElementById('cfg-emoji').value=CFG.emoji;
   document.getElementById('cfg-subtitle').value=CFG.subtitle;
   document.getElementById('cfg-signoff').value=CFG.signoff;
-  document.getElementById('cfg-store').value=CFG.defStore;
   document.getElementById('cfg-tone').value=CFG.tone;
 
   if(CFG.geminiKey){ const el=document.getElementById('cfg-gemini-key'); if(el) el.value=CFG.geminiKey; }
   const prov=document.getElementById('cfg-ai-provider'); if(prov) prov.value=CFG.aiProvider||'gemini';
   updateProviderHint();
+  const rulesEl=document.getElementById('cfg-ai-rules'); if(rulesEl) rulesEl.value=CFG.aiRules||'';
   if(scrollToSync){
     setTimeout(()=>{
     },100);
@@ -672,7 +749,6 @@ function populateSettings(scrollToSync=false){
   document.getElementById('cfg-emoji').value=CFG.emoji;
   document.getElementById('cfg-subtitle').value=CFG.subtitle;
   document.getElementById('cfg-signoff').value=CFG.signoff;
-  document.getElementById('cfg-store').value=CFG.defStore;
   document.getElementById('cfg-tone').value=CFG.tone;
   document.getElementById('prev-emoji').textContent=CFG.emoji;
   document.getElementById('prev-brand').textContent=CFG.brand;
@@ -727,7 +803,7 @@ Additional notes: ${notes||'none'}
 
 ${li}
 
-The subject line MUST include the order number if provided (e.g. "Re: Order ${order||'#XXXXX'}").
+The subject line MUST be in this format: "Re: Order ${order||'#XXXXX'} — ${issue.slice(0,40)}" so the customer can immediately identify their order and issue.
 Address the customer by their first name in the opening.
 
 Reply in this EXACT format only — no text before or after:
@@ -735,7 +811,7 @@ SUBJECT: <subject line>
 ---
 <email body>
 
-Rules: ${tone} tone, under 130 words for the body, sign off as "${sn} Team" in the correct language, no placeholder brackets.`;
+Rules: ${tone} tone, under 130 words for the body, sign off as "${sn} Team" in the correct language, no placeholder brackets.${CFG.aiRules?"\n\nAdditional instructions:\n"+CFG.aiRules:""}`;
 
   // ── Provider configs ──
   const PROVIDERS = {
@@ -790,7 +866,7 @@ Rules: ${tone} tone, under 130 words for the body, sign off as "${sn} Team" in t
     xai: {
       url: 'https://api.x.ai/v1/chat/completions',
       headers: {'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
-      body: JSON.stringify({model:'grok-beta',max_tokens:1024,messages:[{role:'user',content:prompt}]}),
+      body: JSON.stringify({model:'grok-3-fast-beta',max_tokens:1024,messages:[{role:'user',content:prompt}]}),
       parse: d => d.choices?.[0]?.message?.content||'',
     },
     deepseek: {
@@ -838,7 +914,7 @@ Rules: ${tone} tone, under 130 words for the body, sign off as "${sn} Team" in t
 async function genSingle(){
   const name=document.getElementById('sn').value.trim();
   const order=document.getElementById('so').value.trim();
-  const sc=(document.getElementById('ss').value||'').replace(/[.\s]/g,'').toLowerCase()||CFG.defStore||'com';
+  const sc=(document.getElementById('ss').value||'').replace(/[.\s]/g,'').toLowerCase()||'com';
   const issue=getIssueValue('si','si-other');
   const notes=document.getElementById('sk').value.trim();
   const sname=document.getElementById('sm').value.trim()||CFG.signoff;
@@ -1023,7 +1099,7 @@ function renderRecs(){
       const dup=isDup(r);
       return`<tr style="${dup?'background:rgba(212,168,75,0.07);':''}">
       <td>${r.date}</td>
-      <td>${x(r.name)}</td>
+      <td id="name-${r.id}" class="rec-name-cell">${namesRevealed?x(r.name):'<span style="color:var(--tx3);font-family:var(--fm);letter-spacing:.1em;">••••••</span>'}</td>
       <td style="font-family:var(--fm)">
         ${x(r.order||'—')}
         ${dup?`<span title="Duplicate: same order + store already exists" style="margin-left:5px;cursor:help;font-size:11px;background:rgba(212,168,75,0.2);color:var(--am);border:1px solid rgba(212,168,75,0.4);border-radius:4px;padding:1px 5px;font-family:var(--fm);">DUP</span>`:''}
@@ -1330,6 +1406,189 @@ function buildInsights(){
   </div>`;
 }
 
+// ══ CUSTOM CONFIRM DIALOG ════════════════════════════
+let _cfmCallback = null;
+function showConfirm({icon,title,msg,warn,confirmLabel,confirmClass,onConfirm}){
+  _cfmCallback = onConfirm;
+  document.getElementById('cfm-icon').textContent = icon||'❓';
+  document.getElementById('cfm-title').textContent = title||'Are you sure?';
+  document.getElementById('cfm-msg').textContent   = msg||'';
+  const warnEl = document.getElementById('cfm-warn');
+  if(warn){ warnEl.textContent=warn; warnEl.style.display='block'; }
+  else { warnEl.style.display='none'; }
+  const btn = document.getElementById('cfm-ok');
+  btn.textContent = confirmLabel||'Confirm';
+  btn.className   = 'btn '+(confirmClass||'btn-p');
+  document.getElementById('cfm-modal').style.display='flex';
+}
+function cfmCancel(){ document.getElementById('cfm-modal').style.display='none'; _cfmCallback=null; }
+function cfmOk(){
+  document.getElementById('cfm-modal').style.display='none';
+  if(_cfmCallback) _cfmCallback();
+  _cfmCallback=null;
+}
+
+// ══ NAME REDACTION ════════════════════════════════════
+let namesRevealed = false;
+
+function toggleReveal(){
+  // Require password to reveal
+  if(!namesRevealed){
+    showConfirm({
+      icon:'🔒',
+      title:'Reveal customer names?',
+      msg:'Enter your login password to reveal names.',
+      warn:'Customer names are protected under DPA. Only reveal when necessary.',
+      confirmLabel:'Reveal',
+      confirmClass:'btn-p',
+      onConfirm: ()=>{
+        // Ask for password via a simple prompt-replacement modal
+        showPasswordReveal();
+      }
+    });
+  } else {
+    namesRevealed = false;
+    document.getElementById('reveal-btn').textContent='👁 Reveal names';
+    renderRecs();
+  }
+}
+
+function showPasswordReveal(){
+  document.getElementById('pw-reveal-modal').style.display='flex';
+  document.getElementById('pw-reveal-input').value='';
+  setTimeout(()=>document.getElementById('pw-reveal-input').focus(), 100);
+}
+
+function confirmReveal(){
+  const entered = document.getElementById('pw-reveal-input').value;
+  document.getElementById('pw-reveal-modal').style.display='none';
+  if(entered === CFG.pwd){
+    namesRevealed = true;
+    document.getElementById('reveal-btn').textContent='🔒 Hide names';
+    renderRecs();
+    toast('Names revealed — remember to hide when done.');
+  } else {
+    toast('Incorrect password.');
+  }
+}
+
+function cancelReveal(){
+  document.getElementById('pw-reveal-modal').style.display='none';
+}
+
+// ══ IMPORT DATA ══════════════════════════════════════
+let importRows = [];
+
+function resetImport(){
+  const f=document.getElementById('import-file');
+  if(f) f.value='';
+  const prev=document.getElementById('import-preview');
+  if(prev) prev.style.display='none';
+  const res=document.getElementById('import-result');
+  if(res) res.style.display='none';
+  importRows=[];
+}
+
+function cancelImport(){ resetImport(); toast('Import cancelled.'); }
+
+function previewImport(){
+  const file = document.getElementById('import-file').files[0];
+  if(!file) return;
+  const ext = file.name.split('.').pop().toLowerCase();
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      let rows = [];
+      if(ext==='csv'){
+        rows = parseCSV(e.target.result);
+      } else {
+        const wb = XLSX.read(e.target.result, {type:'binary'});
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        rows = XLSX.utils.sheet_to_json(ws, {defval:''});
+      }
+      importRows = rows;
+      showImportPreview(rows);
+    }catch(err){
+      toast('Error reading file: '+err.message);
+    }
+  };
+  if(ext==='csv') reader.readAsText(file);
+  else reader.readAsBinaryString(file);
+}
+
+function parseCSV(text){
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',').map(h=>h.trim().replace(/^"|"$/g,''));
+  return lines.slice(1).map(line=>{
+    const vals = line.split(',').map(v=>v.trim().replace(/^"|"$/g,''));
+    const obj = {};
+    headers.forEach((h,i)=>obj[h]=vals[i]||'');
+    return obj;
+  }).filter(r=>Object.values(r).some(v=>v));
+}
+
+function showImportPreview(rows){
+  const existingKeys = new Set(recs.map(r=>(String(r.order)+'|'+String(r.store)).toLowerCase()));
+  const tbody = document.getElementById('import-preview-rows');
+  let newCount=0, skipCount=0;
+  tbody.innerHTML = rows.map(r=>{
+    const order = String(r['Order #']||r['order']||'').trim();
+    const store = String(r['Store']||r['store']||'').replace('.','').trim();
+    const key = (order+'|'+store).toLowerCase();
+    const isDup = existingKeys.has(key) && order;
+    if(isDup) skipCount++; else newCount++;
+    return `<tr style="${isDup?'opacity:.45;':''}">
+      <td>${x(String(r['Date']||r['date']||'—'))}</td>
+      <td>${x(String(r['Customer Name']||r['name']||'—'))}</td>
+      <td style="font-family:var(--fm)">${x(order||'—')}</td>
+      <td>${x(store||'—')}</td>
+      <td title="${x(String(r['Issue']||r['issue']||''))}">${x(String(r['Issue']||r['issue']||'—').slice(0,28))}</td>
+      <td>${isDup?'<span class="bdg bw">Skip (dup)</span>':'<span class="bdg bg2">New</span>'}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('import-preview-label').textContent =
+    `Preview — ${rows.length} rows · ${newCount} new · ${skipCount} duplicate (will skip)`;
+  document.getElementById('import-preview').style.display='block';
+  document.getElementById('import-result').style.display='none';
+}
+
+function doImport(){
+  if(!importRows.length){ toast('No data to import.'); return; }
+  const existingKeys = new Set(recs.map(r=>(String(r.order)+'|'+String(r.store)).toLowerCase()));
+  let added=0, skipped=0;
+  importRows.forEach(r=>{
+    const order  = String(r['Order #']||r['order']||'').trim();
+    const store  = String(r['Store']||r['store']||'').replace('.','').trim();
+    const key    = (order+'|'+store).toLowerCase();
+    if(order && existingKeys.has(key)){ skipped++; return; }
+    const rec = {
+      id:      r['ID']||r['id']||('r'+Date.now()+'_'+Math.floor(Math.random()*9999)),
+      date:    String(r['Date']||r['date']||new Date().toISOString().slice(0,10)),
+      name:    String(r['Customer Name']||r['name']||''),
+      order:   order,
+      store:   store,
+      lang:    String(r['Language']||r['lang']||''),
+      issue:   String(r['Issue']||r['issue']||''),
+      notes:   String(r['Notes']||r['notes']||''),
+      subject: String(r['Email Subject']||r['subject']||''),
+      body:    String(r['Email Body']||r['body']||''),
+    };
+    recs.push(rec);
+    if(order) existingKeys.add(key);
+    added++;
+  });
+  persistRecs(); renderRecs(); updCount();
+  const resultEl = document.getElementById('import-result');
+  resultEl.style.display='block';
+  resultEl.innerHTML=`<div style="background:rgba(122,184,106,.1);border:1px solid rgba(122,184,106,.3);border-radius:var(--rs);padding:12px 16px;font-size:13px;color:var(--gr);">
+    ✅ Import complete — <strong>${added}</strong> record${added!==1?'s':''} added, <strong>${skipped}</strong> duplicate${skipped!==1?'s':''} skipped.
+  </div>`;
+  toast(added+' record'+(added!==1?'s':'')+' imported ✓');
+  document.getElementById('import-preview').style.display='none';
+  importRows=[];
+  document.getElementById('import-file').value='';
+}
+
 // ══ HELPERS ═══════════════════════════════════════════
 function updateStoreFlag(){
   const raw = document.getElementById('ss')?.value||'';
@@ -1440,6 +1699,21 @@ function clearInvalid(fieldId){
       <button class="btn btn-xl" onclick="bkpYes()" style="flex:1;min-width:120px;">✅ Yes, download</button>
       <button class="btn btn-danger" onclick="bkpNo()" style="flex:1;min-width:120px;">❌ No, just clear</button>
       <button class="btn btn-g" onclick="bkpCancel()" style="width:100%;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- PASSWORD REVEAL MODAL -->
+<div id="pw-reveal-modal" class="modal-overlay" onclick="if(event.target===this)cancelReveal()">
+  <div class="cfm-box">
+    <div class="cfm-icon">🔒</div>
+    <div class="cfm-title">Enter password to reveal names</div>
+    <div class="cfm-msg" style="margin-bottom:12px;">Customer names are DPA-protected. Enter your login password to view them.</div>
+    <input type="password" id="pw-reveal-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')confirmReveal()"
+      style="width:100%;background:var(--sur2);border:1px solid var(--bor2);border-radius:var(--rs);color:var(--tx);font-family:var(--fb);font-size:13px;padding:9px 12px;outline:none;margin-bottom:14px;" />
+    <div class="cfm-acts">
+      <button class="btn btn-g" onclick="cancelReveal()">Cancel</button>
+      <button class="btn btn-p" onclick="confirmReveal()">Reveal</button>
     </div>
   </div>
 </div>
