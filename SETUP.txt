@@ -1,0 +1,92 @@
+# CS Email Tool — Google Sheets Setup Guide
+========================================================
+
+## What you get
+A sidebar inside Google Sheets that drafts customer emails via Claude AI,
+saves every record directly to the sheet, and is shared with your whole team
+automatically — no local server, no file sharing needed.
+
+========================================================
+## Setup (one-time, ~5 minutes)
+========================================================
+
+### Step 1 — Open Google Sheets
+Go to sheets.google.com and create a new spreadsheet.
+Name it anything (e.g. "CS Email Tool").
+
+### Step 2 — Open Apps Script
+Click:  Extensions → Apps Script
+
+A new Apps Script editor will open.
+
+### Step 3 — Create the 3 files
+
+You need 3 files in the editor. By default there is one called "Code.gs".
+
+FILE 1 — Code.gs (already exists, replace its content)
+  → Copy everything from Code.gs and paste it in
+
+FILE 2 — Sidebar.html (create new)
+  → Click the "+" next to Files → select HTML
+  → Name it exactly:  Sidebar
+  → Copy everything from Sidebar.html and paste it in
+
+FILE 3 — Config.html (create new)
+  → Click the "+" next to Files → select HTML
+  → Name it exactly:  Config
+  → Copy everything from Config.html and paste it in
+
+### Step 4 — Save
+Press Ctrl+S (or Cmd+S on Mac) to save all files.
+
+### Step 5 — Run once to authorize
+  → Click the "Run" button (▶) at the top
+  → Select function: onOpen
+  → Click Run
+  → A permissions popup will appear — click Review permissions
+  → Choose your Google account
+  → Click "Advanced" → "Go to [project name] (unsafe)" → Allow
+
+(The "unsafe" warning is standard for any self-written script — it's safe.)
+
+### Step 6 — Go back to your Google Sheet
+Refresh the spreadsheet page.
+You should see a new menu:  📧 CS Email Tool
+
+### Step 7 — Configure the tool
+  → Click  📧 CS Email Tool → ⚙️ Settings
+  → Enter your Anthropic API key (from console.anthropic.com → API Keys)
+  → Fill in Brand name, emoji, sign-off name
+  → Set a team password
+  → Click Save settings
+
+### Step 8 — Open the sidebar
+  → Click  📧 CS Email Tool → Open Email Drafter
+  → A sidebar opens on the right side of your sheet
+  → Enter the password → Sign in
+
+========================================================
+## Sharing with teammates
+========================================================
+
+1. Share the Google Sheet with your teammate (Share button, top right)
+   → Give them "Editor" access
+
+2. They open the sheet → refresh → see the  📧 CS Email Tool  menu
+
+3. They go to Settings and enter the same API key and password
+   (Or you enter it once — script properties are shared across the spreadsheet)
+
+4. Done — all records appear in the "CS Records" sheet tab for everyone
+
+========================================================
+## Notes
+========================================================
+
+- Records are saved to a tab called "CS Records" — created automatically
+- Each row includes: Date, Agent email, Customer, Order #, Store, Issue, Subject, Body
+- The API key is stored in Script Properties (not visible in the sheet)
+- Email cost: ~$0.01–0.03 per email drafted (Anthropic charges per token)
+- The tool works on any browser, any OS, no installation needed
+
+========================================================
