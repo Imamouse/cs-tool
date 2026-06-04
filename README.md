@@ -17,10 +17,9 @@ Settings — customize brand, emoji, sign-off, AI provider, tone, and custom ins
 Supported AI Providers
 Provider
 Free Tier
-Google Gemini
-✅ Free
-Groq
-✅ Free
+Google Gemini ✅ Free
+
+Groq ✅ Free
 OpenRouter
 ✅ Free models
 Mistral
@@ -56,6 +55,7 @@ Step 1 — Push to GitHub
 Create a new repository on github.com (can be private)
 Upload cs-tool-generic.html to the repo root
 Commit the file
+
 Step 2 — Connect to Netlify
 Go to netlify.com and sign up / log in (free)
 Click Add new site → Import an existing project
@@ -63,6 +63,7 @@ Select GitHub and authorize Netlify
 Pick your repository
 Leave build settings blank (no build command needed — it's a plain HTML file)
 Click Deploy site
+
 Step 3 — Set your URL (optional)
 In Netlify → Site settings → Domain management
 Click Options → Edit site name → set something like jc-cs-tool
