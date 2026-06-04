@@ -211,17 +211,17 @@ input.invalid,select.invalid{border-color:var(--re)!important;box-shadow:0 0 0 2
     <div class="sub" id="login-sub">Shipping Operations Tool</div>
     <input type="password" id="pw" placeholder="Team password" onkeydown="if(event.key==='Enter')document.getElementById('ak').focus()" autofocus />
     <div id="ak-wrap" style="display:none;">
-      <input type="password" id="ak" placeholder="Anthropic API key  (sk-ant-…)" onkeydown="if(event.key==='Enter')tryLogin()" autocomplete="off" />
+      <input type="password" id="ak" placeholder="API key (Gemini, Groq, OpenAI…)" onkeydown="if(event.key==='Enter')tryLogin()" autocomplete="off" />
     </div>
     <div class="lerr" id="perr"></div>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;justify-content:center;">
       <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;color:var(--tx3);text-transform:none;letter-spacing:0;font-family:var(--fm);">
         <input type="checkbox" id="local-mode" onchange="toggleLocalMode()" style="width:auto;accent-color:var(--ac);cursor:pointer;" />
-        Running locally (need API key)
+        Pre-fill API key at login
       </label>
     </div>
     <button class="btn btn-p bfw" onclick="tryLogin()">Sign in</button>
-    <div class="lhint" id="login-hint">On <strong>claude.ai</strong> — no API key needed.<br>Running locally? Check the box above.</div>
+    <div class="lhint" id="login-hint">Enter your team password to access the tool.<br>API key can also be set in <strong>Settings</strong> after login.</div>
   </div>
 </div>
 
@@ -277,13 +277,13 @@ input.invalid,select.invalid{border-color:var(--re)!important;box-shadow:0 0 0 2
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
     <div class="card" style="min-width:0;">
       <div class="ct">Order details</div>
-      <div class="fg"><label>Customer name<span class="req">*</span></label><input id="sn" placeholder="e.g. Maria Santos" oninput="clearInvalid('sn')" /><div class="field-err" id="err-sn">Customer name is required</div></div>
-      <div class="fg"><label>Order number<span class="req">*</span></label><input id="so" placeholder="e.g. #10482" oninput="clearInvalid('so')" /><div class="field-err" id="err-so">Order number is required</div></div>
+      <div class="fg"><label>Customer name<span class="req">*</span></label><input id="sn" placeholder="e.g. Maria Santos" autocomplete="off" oninput="clearInvalid('sn')" /><div class="field-err" id="err-sn">Customer name is required</div></div>
+      <div class="fg"><label>Order number<span class="req">*</span></label><input id="so" placeholder="e.g. #10482" autocomplete="off" oninput="clearInvalid('so')" /><div class="field-err" id="err-so">Order number is required</div></div>
       <div class="fg">
           <label>Store / domain<span class="req">*</span></label>
           <div style="position:relative;display:flex;align-items:center;">
             <span style="position:absolute;left:10px;font-size:13px;color:var(--tx3);font-family:var(--fm);pointer-events:none;">.</span>
-            <input id="ss" placeholder="de  kr  nl  fr  com …" oninput="clearInvalid('ss');updateStoreFlag()" style="padding-left:20px;" />
+            <input id="ss" placeholder="de  kr  nl  fr  com …" autocomplete="off" oninput="clearInvalid('ss');updateStoreFlag()" style="padding-left:20px;" />
             <span id="store-flag" style="position:absolute;right:10px;font-size:18px;"></span>
           </div>
           <div class="field-err" id="err-ss">Store / domain is required</div>
@@ -347,10 +347,7 @@ input.invalid,select.invalid{border-color:var(--re)!important;box-shadow:0 0 0 2
     </div>
     <div class="fg">
       <textarea id="bi" rows="7" style="font-family:var(--fm);font-size:12px;"
-        placeholder="Maria Santos	#10482	.de	wrong postcode	Customer moved recently
-Kim Jisoo	#10490	.kr	korea id required	
-Jan Bakker	#10501	.nl	missing house number	Flat 3B
-Sophie Martin	#10512	.fr	customs issue	"></textarea>
+        placeholder="Paste rows from Google Sheets here…"></textarea>
     </div>
     <div class="fr c2">
       <div><label>Store name (sign-off)</label><input id="bm" value="Your Signature" /></div>
@@ -542,13 +539,12 @@ Sophie Martin	#10512	.fr	customs issue	"></textarea>
 
 <script>
 // ══ CONFIG ════════════════════════════════════════════
-let CFG = {
+const CFG_DEFAULTS = {
   brand: 'Default Name',
   emoji: '🏢',
   subtitle: 'CS Shipping Tool',
   signoff: 'Your Signature',
   pwd: 'default',
-
   tone: 'casual, friendly and informal',
   geminiKey: '',
   aiProvider: 'gemini',
@@ -563,6 +559,20 @@ Warm, casual, and human — no corporate jargon. Plain text only.
 Always drop the order number in the subject line.
 Adapt language to customer's region if needed.`,
 };
+
+// Load persisted settings on page load
+function loadCFG(){
+  const saved = localStorage.getItem('cs_cfg');
+  if(saved){ try{ return {...CFG_DEFAULTS, ...JSON.parse(saved)}; }catch(e){} }
+  return {...CFG_DEFAULTS};
+}
+let CFG = loadCFG();
+
+function persistCFG(){
+  // Never persist the API key in CFG storage — it has its own key
+  const {geminiKey, ...rest} = CFG;
+  localStorage.setItem('cs_cfg', JSON.stringify(rest));
+}
 function applyBrand(){
   const b=document.getElementById('cfg-brand')?.value||CFG.brand;
   const e=document.getElementById('cfg-emoji')?.value||CFG.emoji;
@@ -582,15 +592,14 @@ function saveBrand(){
   CFG.subtitle=document.getElementById('cfg-subtitle')?.value||CFG.subtitle;
   CFG.signoff=document.getElementById('cfg-signoff')?.value||CFG.signoff;
   const np=document.getElementById('cfg-pwd')?.value;
-  if(np)CFG.pwd=np;
+  if(np) CFG.pwd=np;
   CFG.tone=document.getElementById('cfg-tone')?.value||CFG.tone;
   CFG.aiRules=document.getElementById('cfg-ai-rules')?.value||'';
-  localStorage.setItem('cs_ai_rules', CFG.aiRules);
   const gk=document.getElementById('cfg-gemini-key')?.value;
   if(gk) CFG.geminiKey=gk;
   localStorage.setItem('cs_gemini_key', CFG.geminiKey);
   CFG.aiProvider=document.getElementById('cfg-ai-provider')?.value||'gemini';
-  localStorage.setItem('cs_ai_provider', CFG.aiProvider);
+  persistCFG(); // saves brand, emoji, subtitle, signoff, pwd, tone, aiRules, aiProvider
   // Apply to UI
   document.getElementById('sb-logo').textContent=CFG.emoji;
   document.getElementById('sb-brand').textContent=CFG.brand;
@@ -622,8 +631,8 @@ function toggleLocalMode(){
   IS_LOCAL = document.getElementById('local-mode').checked;
   document.getElementById('ak-wrap').style.display = IS_LOCAL ? 'block' : 'none';
   document.getElementById('login-hint').innerHTML = IS_LOCAL
-    ? 'API key is stored in memory only and cleared on sign-out.'
-    : 'On <strong>claude.ai</strong> — no API key needed.<br>Running locally? Check the box above.';
+    ? 'API key stored in memory only — cleared on sign-out.'
+    : 'Enter your team password to access the tool.<br>API key can also be set in <strong>Settings</strong> after login.';
 }
 
 function tryLogin(){
@@ -635,11 +644,12 @@ function tryLogin(){
   }
   if(IS_LOCAL){
     const ak = document.getElementById('ak').value.trim();
-    if(!ak || !ak.startsWith('sk-ant-')){
-      document.getElementById('perr').textContent='Enter a valid Anthropic API key (starts with sk-ant-).';
+    if(!ak){
+      document.getElementById('perr').textContent='Enter your API key, or uncheck the box and set it in Settings after login.';
       return;
     }
     SESSION_KEY = ak;
+    CFG.geminiKey = ak; // pre-populate so it works immediately without visiting Settings
     document.getElementById('ak').value=''; // clear from DOM immediately
   }
   document.getElementById('login-screen').style.display='none';
@@ -651,9 +661,8 @@ function tryLogin(){
   document.getElementById('sm').value=CFG.signoff;
   document.getElementById('bm').value=CFG.signoff;
   loadRecs(); renderRecs(); updCount();
+  // API key is stored separately (security); everything else is loaded at startup via loadCFG()
   const storedKey=localStorage.getItem('cs_gemini_key'); if(storedKey) CFG.geminiKey=storedKey;
-  const storedRules=localStorage.getItem('cs_ai_rules'); if(storedRules) CFG.aiRules=storedRules;
-  const storedProvider=localStorage.getItem('cs_ai_provider'); if(storedProvider) CFG.aiProvider=storedProvider;
 }
 
 function logout(){
@@ -1168,7 +1177,7 @@ function exportBulk(){
   const ws=XLSX.utils.json_to_sheet(rows);
   ws['!cols']=[20,12,8,12,25,40,70,12].map(w=>({wch:w}));
   XLSX.utils.book_append_sheet(wb,ws,'Bulk Emails');
-  XLSX.writeFile(wb,`MrFluffyFriend_BulkEmails_${new Date().toISOString().slice(0,10)}.xlsx`);
+  XLSX.writeFile(wb,`${(CFG.brand||'CS').replace(/\s+/g,'_')}_BulkEmails_${new Date().toISOString().slice(0,10)}.xlsx`);
   toast('Excel downloaded ✓');
 }
 
@@ -1635,52 +1644,6 @@ function markInvalid(fieldId, errId){
 function clearInvalid(fieldId){
   const el=document.getElementById(fieldId);
   if(el)el.classList.remove('invalid');
-  // find sibling error
-  const parent=el?.parentElement;
-  if(parent){const err=parent.querySelector('.field-err');if(err)err.classList.remove('show');}
-}
-
-// ══ REQUIRED FIELD HELPERS ════════════════════════════
-function markInvalid(fieldId, errId){
-  const el=document.getElementById(fieldId);
-  const er=document.getElementById(errId);
-  if(el)el.classList.add('invalid');
-  if(er)er.classList.add('show');
-}
-function clearInvalid(fieldId){
-  const el=document.getElementById(fieldId);
-  if(el)el.classList.remove('invalid');
-  // find sibling error
-  const parent=el?.parentElement;
-  if(parent){const err=parent.querySelector('.field-err');if(err)err.classList.remove('show');}
-}
-
-// ══ REQUIRED FIELD HELPERS ════════════════════════════
-function markInvalid(fieldId, errId){
-  const el=document.getElementById(fieldId);
-  const er=document.getElementById(errId);
-  if(el)el.classList.add('invalid');
-  if(er)er.classList.add('show');
-}
-function clearInvalid(fieldId){
-  const el=document.getElementById(fieldId);
-  if(el)el.classList.remove('invalid');
-  // find sibling error
-  const parent=el?.parentElement;
-  if(parent){const err=parent.querySelector('.field-err');if(err)err.classList.remove('show');}
-}
-
-// ══ REQUIRED FIELD HELPERS ════════════════════════════
-function markInvalid(fieldId, errId){
-  const el=document.getElementById(fieldId);
-  const er=document.getElementById(errId);
-  if(el)el.classList.add('invalid');
-  if(er)er.classList.add('show');
-}
-function clearInvalid(fieldId){
-  const el=document.getElementById(fieldId);
-  if(el)el.classList.remove('invalid');
-  // find sibling error
   const parent=el?.parentElement;
   if(parent){const err=parent.querySelector('.field-err');if(err)err.classList.remove('show');}
 }
